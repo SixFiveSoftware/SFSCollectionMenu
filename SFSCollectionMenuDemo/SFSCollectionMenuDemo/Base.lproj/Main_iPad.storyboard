@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4IA-pV-bbs">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="asm-QK-HnU">
+            <objects>
+                <viewController id="4IA-pV-bbs" customClass="SFSViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nqG-P8-cHl"/>
+                        <viewControllerLayoutGuide type="bottom" id="BJe-VD-bzS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="t7J-nl-vzt">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6F-Tp-TWz">
+                                <rect key="frame" x="20" y="169" width="728" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27Y-bS-3Kb">
+                                <rect key="frame" x="338" y="495" width="92" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Show Menu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonTap:" destination="4IA-pV-bbs" eventType="touchUpInside" id="Ms3-xk-2kD"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="O6F-Tp-TWz" firstAttribute="top" secondItem="nqG-P8-cHl" secondAttribute="bottom" constant="149" id="7sj-fV-Sfb"/>
+                            <constraint firstAttribute="centerX" secondItem="27Y-bS-3Kb" secondAttribute="centerX" id="AIW-df-ehb"/>
+                            <constraint firstAttribute="centerY" secondItem="O6F-Tp-TWz" secondAttribute="centerY" constant="332.5" id="acc-hd-VPa"/>
+                            <constraint firstAttribute="centerY" secondItem="27Y-bS-3Kb" secondAttribute="centerY" constant="0.5" id="ngz-ks-ehr"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonTappedLabel" destination="O6F-Tp-TWz" id="8AX-uM-UAX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G5S-rL-RKZ" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackOpaque"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
