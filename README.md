@@ -14,3 +14,7 @@ SFSMenuController's designated initializer is -initWithDelegate, as the delegate
 4. Create an instance of the menu controller by [[SFSCollectionMenu alloc] initWithDelegate:self], or whatever object you designate as the delegate  
 5. Implement the required methods, and any optional methods you wish  
 6. Call -showMenu on your instance of SFSCollectionMenu  
+
+####Screenshots  
+![iPad portrait](https://github.com/SixFiveSoftware/SFSCollectionMenu/blob/gh-pages/screenshots/ipad1.png) ![iPhone 4 inch portrait](https://github.com/SixFiveSoftware/SFSCollectionMenu/blob/gh-pages/screenshots/iphone1.png)
+
