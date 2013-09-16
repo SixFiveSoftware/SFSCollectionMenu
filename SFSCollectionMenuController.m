@@ -29,8 +29,8 @@
     self = [self initWithCollectionViewLayout:[self circleLayout]];
     if (self) {
         _delegate = delegate;
-        UIView *view = ([delegate respondsToSelector:@selector(viewForMenu)] ? [delegate viewForMenu] : self.view);
-        _collectionView = [[UICollectionView alloc] initWithFrame:view.frame collectionViewLayout:[self circleLayout]];
+        self.viewDisplayingMenu = ([delegate respondsToSelector:@selector(viewForMenu)] ? [delegate viewForMenu] : self.view );
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.viewDisplayingMenu.frame collectionViewLayout:[self circleLayout]];
         [self.collectionView setDelegate:self];
         [self.collectionView setDataSource:self];
         [self.collectionView registerClass:[SFSMenuCell class] forCellWithReuseIdentifier:CELL_REUSE_ID];
@@ -71,11 +71,10 @@
     }];
 }
 
-- (void)showInView:(UIView *)view {
-    self.viewDisplayingMenu = view;
-    [view.window setTintAdjustmentMode:UIViewTintAdjustmentModeDimmed];
+- (void)showMenu {
+    [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeDimmed];
     [self resetCells];
-    [view addSubview:self.collectionView];
+    [self.viewDisplayingMenu addSubview:self.collectionView];
     self.visible = YES;
 }
 
