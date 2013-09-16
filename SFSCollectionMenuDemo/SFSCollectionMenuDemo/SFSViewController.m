@@ -21,7 +21,7 @@
     if (!_collectionMenu) {
         _collectionMenu = [[SFSCollectionMenuController alloc] initWithDelegate:self];
     }
-    [self.collectionMenu showInView:self.view];
+    [self.collectionMenu showMenu];
 }
 
 
