@@ -8,7 +8,8 @@
 //  SFSCollectionMenuController is an open-source control for a UICollectionView-based menu. It works by utilizing a delegate pattern
 //   to allow you, the developer, the implement it easily and add your own code to customize its appearance and behavior.
 //  SFSCollectionMenuController's designated initializer is -initWithDelegate, as the delegate is required for operation.
-//  SFSCollectionMenuController
+//  SFSCollectionMenuController is modal, meaning that the user cannot interact with their app unless the menu is dismissed. The controller has a tap
+//      gesture recognizer to handle taps inside and outside of the menu. Tapping outside of any cell/button will dismiss the menu.
 //
 //  To use:
 //   1. Add SFSCollectionMenuController.h/.m, SFSCircleLayout.h/.m, and SFSMenuCell.h/.m to your project.
