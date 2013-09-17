@@ -16,5 +16,5 @@ SFSCollectionMenuController's designated initializer is -initWithDelegate, as th
 6. Call -showMenu on your instance of SFSCollectionMenuController  
 
 ####Screenshots  
-![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/blob/master/ipad1.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/blob/master/iphone1.png)
+![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/ipad1.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iphone1.png)
 
