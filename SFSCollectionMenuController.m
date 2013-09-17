@@ -37,12 +37,8 @@
         [self.collectionView setDataSource:self];
         [self.collectionView registerClass:[SFSMenuCell class] forCellWithReuseIdentifier:CELL_REUSE_ID];
         
-//        self.collectionViewBackgroundImageView = [[UIImageView alloc] init];
-//        [self.collectionView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.45]];
         [self.collectionView setBackgroundColor:[UIColor clearColor]];
-        
-        
-        
+                
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
         [tapGesture setNumberOfTapsRequired:1];
         [tapGesture setNumberOfTouchesRequired:1];
@@ -51,6 +47,14 @@
     }
     
     return self;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return (UIInterfaceOrientationMaskAllButUpsideDown);
 }
 
 - (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer {
@@ -79,54 +83,57 @@
 }
 
 - (void)showMenu {
-    [self resetCells];
-    
-    // blur background
-    //
-    // grab view context and set to image
-    CGSize size = [[UIScreen mainScreen] bounds].size;
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    [self.viewDisplayingMenu drawViewHierarchyInRect:CGRectMake(0, 0, size.width, size.height) afterScreenUpdates:NO];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    // apply effect
-    UIImage *lightImage = [newImage applyLightEffect];
-
-    // set blurred image to custom image view
-    if (!_collectionViewBackgroundImageView) {
-        _collectionViewBackgroundImageView = [[UIImageView alloc] initWithImage:lightImage];
-    } else {
-        [self.collectionViewBackgroundImageView setImage:lightImage];
+    if (!self.isVisible) {
+        [self resetCells];
+        
+        // blur background
+        //
+        // grab view context and set to image
+        CGSize size = [[UIScreen mainScreen] bounds].size;
+        UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+        [self.viewDisplayingMenu drawViewHierarchyInRect:CGRectMake(0, 0, size.width, size.height) afterScreenUpdates:NO];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        // apply effect
+        UIImage *lightImage = [newImage applyLightEffect];
+        
+        // set blurred image to custom image view
+        if (!_collectionViewBackgroundImageView) {
+            _collectionViewBackgroundImageView = [[UIImageView alloc] initWithImage:lightImage];
+        } else {
+            [self.collectionViewBackgroundImageView setImage:lightImage];
+        }
+        
+        // animate display of blur and menu
+        [self.collectionViewBackgroundImageView setAlpha:0.0];
+        [self.collectionView setAlpha:0.0];
+        
+        [self.viewDisplayingMenu addSubview:self.collectionViewBackgroundImageView];
+        [self.viewDisplayingMenu addSubview:self.collectionView];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.collectionViewBackgroundImageView setAlpha:1.0];
+            [self.collectionView setAlpha:1.0];
+        } completion:^(BOOL finished) {
+            self.visible = YES;
+        }];
     }
-    
-    // animate display of blur and menu
-    [self.collectionViewBackgroundImageView setAlpha:0.0];
-    [self.collectionView setAlpha:0.0];
-    
-    [self.viewDisplayingMenu addSubview:self.collectionViewBackgroundImageView];
-    [self.viewDisplayingMenu addSubview:self.collectionView];
-
-    [UIView animateWithDuration:0.2 animations:^{
-        [self.collectionViewBackgroundImageView setAlpha:1.0];
-        [self.collectionView setAlpha:1.0];
-    } completion:^(BOOL finished) {
-        self.visible = YES;
-    }];
-    
 }
 
 - (void)dismissMenu {
-    [UIView animateWithDuration:0.2 animations:^{
-        [self.collectionView setAlpha:0.0];
-        [self.collectionViewBackgroundImageView setAlpha:0.0];
-    } completion:^(BOOL finished) {
-        [self.collectionView removeFromSuperview];
-        [self.collectionViewBackgroundImageView removeFromSuperview];
-        [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
-        self.collectionViewBackgroundImageView = nil;
-        self.visible = NO;
-    }];
+    if (self.isVisible) {
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.collectionView setAlpha:0.0];
+            [self.collectionViewBackgroundImageView setAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self.collectionView removeFromSuperview];
+            [self.collectionViewBackgroundImageView removeFromSuperview];
+            [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
+            self.collectionViewBackgroundImageView = nil;
+            self.visible = NO;
+        }];
+    }
 }
 
 

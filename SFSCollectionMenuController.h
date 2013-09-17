@@ -5,9 +5,10 @@
 //  Created by BJ Miller on 9/7/13.
 //  Copyright (c) 2013 Six Five Software, LLC. All rights reserved.
 //
-//  SFSMenuController is an open-source control for a UICollectionView-based menu. It works by utilizing a delegate pattern
+//  SFSCollectionMenuController is an open-source control for a UICollectionView-based menu. It works by utilizing a delegate pattern
 //   to allow you, the developer, the implement it easily and add your own code to customize its appearance and behavior.
-//  SFSMenuController's designated initializer is -initWithDelegate, as the delegate is required for operation.
+//  SFSCollectionMenuController's designated initializer is -initWithDelegate, as the delegate is required for operation.
+//  SFSCollectionMenuController
 //
 //  To use:
 //   1. Add SFSCollectionMenuController.h/.m, SFSCircleLayout.h/.m, and SFSMenuCell.h/.m to your project.
@@ -62,6 +63,17 @@
 @end
 
 
+// Public interface for SFSCollectionMenuController
+//
+// Declares:
+//  properties:
+//      delegate - your controller must set itself, or another object, as the delegate, and adopt the SFSCollectionMenuDelegate protocol
+//
+//  methods:
+//
+//      -initWithDelegate: - this is the designated initializer for this class, and you should call this from your controller to initialize the menu
+//      -showMenu - call this on the instance of SFSCollectionMenuController to make the menu visible to the user
+//      -dismissMenu - call this on the instance of SFSCollectionMenuController to dismiss the menu and return normal control back to the user
 @interface SFSCollectionMenuController : UICollectionViewController
 
 @property (nonatomic, weak, readonly) id<SFSCollectionMenuDelegate> delegate;
