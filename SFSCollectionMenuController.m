@@ -9,6 +9,7 @@
 #import "SFSCollectionMenuController.h"
 #import "SFSMenuCell.h"
 #import "SFSCircleLayout.h"
+#import "UIImage+ImageEffects.h"
 
 #define CELL_REUSE_ID @"Cell Reuse ID"
 
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) UIView *viewDisplayingMenu;
 @property (nonatomic, strong) SFSCircleLayout *circleLayout;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
+@property (nonatomic, strong) UIImageView *collectionViewBackgroundImageView;
 
 @end
 
@@ -34,7 +36,10 @@
         [self.collectionView setDelegate:self];
         [self.collectionView setDataSource:self];
         [self.collectionView registerClass:[SFSMenuCell class] forCellWithReuseIdentifier:CELL_REUSE_ID];
-        [self.collectionView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.45]];
+        
+//        self.collectionViewBackgroundImageView = [[UIImageView alloc] init];
+//        [self.collectionView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.45]];
+        [self.collectionView setBackgroundColor:[UIColor clearColor]];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
         [tapGesture setNumberOfTapsRequired:1];
@@ -72,17 +77,49 @@
 }
 
 - (void)showMenu {
-    [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeDimmed];
+//    [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeDimmed];
     [self resetCells];
+    
+    // blur background
+//    UIGraphicsBeginImageContextWithOptions(self.viewDisplayingMenu.window.bounds, NULL, 0);
+    CGSize size = [[UIScreen mainScreen] bounds].size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    [self.viewDisplayingMenu drawViewHierarchyInRect:self.collectionViewBackgroundImageView.frame afterScreenUpdates:NO];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImage *lightImage = [newImage applyLightEffect];
+
+    if (!_collectionViewBackgroundImageView) {
+        _collectionViewBackgroundImageView = [[UIImageView alloc] initWithImage:lightImage];
+    }
+    [self.collectionViewBackgroundImageView setImage:lightImage];
+    
+    [self.collectionViewBackgroundImageView setAlpha:0.0];
+    [self.collectionView setAlpha:0.0];
+    
+    [self.viewDisplayingMenu addSubview:self.collectionViewBackgroundImageView];
     [self.viewDisplayingMenu addSubview:self.collectionView];
-    self.visible = YES;
+
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.collectionViewBackgroundImageView setAlpha:1.0];
+        [self.collectionView setAlpha:1.0];
+    } completion:^(BOOL finished) {
+        self.visible = YES;
+    }];
+    
 }
 
 - (void)dismissMenu {
-    [self.collectionView removeFromSuperview];
-    [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
-    self.viewDisplayingMenu = nil;
-    self.visible = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.collectionView setAlpha:0.0];
+        [self.collectionViewBackgroundImageView setAlpha:0.0];
+    } completion:^(BOOL finished) {
+        [self.collectionView removeFromSuperview];
+        [self.collectionViewBackgroundImageView removeFromSuperview];
+        [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
+        self.collectionViewBackgroundImageView = nil;
+        self.visible = NO;
+    }];
 }
 
 

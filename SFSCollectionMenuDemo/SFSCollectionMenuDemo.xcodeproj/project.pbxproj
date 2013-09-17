@@ -41,6 +41,8 @@
 		3B63E75217DD63A800AA2978 /* voicemail.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B63E74317DD63A800AA2978 /* voicemail.png */; };
 		3B63E75317DD63A800AA2978 /* voicemail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B63E74417DD63A800AA2978 /* voicemail@2x.png */; };
 		3B63E75517DD670700AA2978 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E75417DD670700AA2978 /* QuartzCore.framework */; };
+		3BA0D78117E7719F0076ADDC /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA0D78017E7719F0076ADDC /* Accelerate.framework */; };
+		3BA0D78417E7D6F20076ADDC /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA0D78317E7D6F20076ADDC /* UIImage+ImageEffects.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +98,9 @@
 		3B63E74317DD63A800AA2978 /* voicemail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voicemail.png; sourceTree = "<group>"; };
 		3B63E74417DD63A800AA2978 /* voicemail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voicemail@2x.png"; sourceTree = "<group>"; };
 		3B63E75417DD670700AA2978 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3BA0D78017E7719F0076ADDC /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		3BA0D78217E7D6F20076ADDC /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		3BA0D78317E7D6F20076ADDC /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BA0D78117E7719F0076ADDC /* Accelerate.framework in Frameworks */,
 				3B63E75517DD670700AA2978 /* QuartzCore.framework in Frameworks */,
 				3B63E6F117DD5F1C00AA2978 /* CoreGraphics.framework in Frameworks */,
 				3B63E6F317DD5F1C00AA2978 /* UIKit.framework in Frameworks */,
@@ -145,6 +151,7 @@
 		3B63E6ED17DD5F1C00AA2978 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BA0D78017E7719F0076ADDC /* Accelerate.framework */,
 				3B63E75417DD670700AA2978 /* QuartzCore.framework */,
 				3B63E6EE17DD5F1C00AA2978 /* Foundation.framework */,
 				3B63E6F017DD5F1C00AA2978 /* CoreGraphics.framework */,
@@ -157,6 +164,7 @@
 		3B63E6F417DD5F1C00AA2978 /* SFSCollectionMenuDemo */ = {
 			isa = PBXGroup;
 			children = (
+				3BA0D78517E7D6FB0076ADDC /* UIImage+ImageEffects */,
 				3B63E73517DD63A800AA2978 /* Images */,
 				3B63E72E17DD5FF600AA2978 /* Layout */,
 				3B63E72A17DD5FD900AA2978 /* MenuController */,
@@ -250,6 +258,15 @@
 			);
 			name = Images;
 			path = ../../Images;
+			sourceTree = "<group>";
+		};
+		3BA0D78517E7D6FB0076ADDC /* UIImage+ImageEffects */ = {
+			isa = PBXGroup;
+			children = (
+				3BA0D78217E7D6F20076ADDC /* UIImage+ImageEffects.h */,
+				3BA0D78317E7D6F20076ADDC /* UIImage+ImageEffects.m */,
+			);
+			name = "UIImage+ImageEffects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,6 +388,7 @@
 			files = (
 				3B63E73117DD600400AA2978 /* SFSCircleLayout.m in Sources */,
 				3B63E6FB17DD5F1C00AA2978 /* main.m in Sources */,
+				3BA0D78417E7D6F20076ADDC /* UIImage+ImageEffects.m in Sources */,
 				3B63E72917DD5FCF00AA2978 /* SFSMenuCell.m in Sources */,
 				3B63E6FF17DD5F1C00AA2978 /* SFSAppDelegate.m in Sources */,
 				3B63E72D17DD5FED00AA2978 /* SFSCollectionMenuController.m in Sources */,
@@ -589,6 +607,7 @@
 				3B63E72217DD5F1C00AA2978 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3B63E72317DD5F1C00AA2978 /* Build configuration list for PBXNativeTarget "SFSCollectionMenuDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -597,6 +616,7 @@
 				3B63E72517DD5F1C00AA2978 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
