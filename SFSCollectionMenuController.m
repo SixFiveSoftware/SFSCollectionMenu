@@ -41,6 +41,8 @@
 //        [self.collectionView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.45]];
         [self.collectionView setBackgroundColor:[UIColor clearColor]];
         
+        
+        
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
         [tapGesture setNumberOfTapsRequired:1];
         [tapGesture setNumberOfTouchesRequired:1];
@@ -77,23 +79,28 @@
 }
 
 - (void)showMenu {
-//    [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeDimmed];
     [self resetCells];
     
     // blur background
-//    UIGraphicsBeginImageContextWithOptions(self.viewDisplayingMenu.window.bounds, NULL, 0);
+    //
+    // grab view context and set to image
     CGSize size = [[UIScreen mainScreen] bounds].size;
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    [self.viewDisplayingMenu drawViewHierarchyInRect:self.collectionViewBackgroundImageView.frame afterScreenUpdates:NO];
+    [self.viewDisplayingMenu drawViewHierarchyInRect:CGRectMake(0, 0, size.width, size.height) afterScreenUpdates:NO];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    
+    // apply effect
     UIImage *lightImage = [newImage applyLightEffect];
 
+    // set blurred image to custom image view
     if (!_collectionViewBackgroundImageView) {
         _collectionViewBackgroundImageView = [[UIImageView alloc] initWithImage:lightImage];
+    } else {
+        [self.collectionViewBackgroundImageView setImage:lightImage];
     }
-    [self.collectionViewBackgroundImageView setImage:lightImage];
     
+    // animate display of blur and menu
     [self.collectionViewBackgroundImageView setAlpha:0.0];
     [self.collectionView setAlpha:0.0];
     
@@ -129,8 +136,10 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([self.delegate respondsToSelector:@selector(numberOfButtonsInMenuController:)]) {
-        return [self.delegate numberOfButtonsInMenuController:self];
+    if (self.delegate) {
+        if ([self.delegate respondsToSelector:@selector(numberOfButtonsInMenuController:)]) {
+            return [self.delegate numberOfButtonsInMenuController:self];
+        }
     }
     return 0;
 }
