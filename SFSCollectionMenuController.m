@@ -20,6 +20,7 @@
 @property (nonatomic, strong) SFSCircleLayout *circleLayout;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 @property (nonatomic, strong) UIImageView *collectionViewBackgroundImageView;
+@property (nonatomic) UIInterfaceOrientation currentOrientation;
 
 @end
 
@@ -63,11 +64,14 @@
 
 #pragma mark - Orientation
 - (void)orientationChanged:(NSNotification *)notification {
-    if (self.isVisible) {
+    NSLog(@"notification: %@", [notification userInfo]);
+    UIInterfaceOrientation newOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (self.isVisible && (newOrientation != self.currentOrientation)) {
         [self dismissMenuWithCompletion:^ {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self showMenu];
                 [self.collectionView reloadData];
+                self.currentOrientation = newOrientation;
             });
         }];
     }
@@ -146,6 +150,8 @@
         [self setupCollectionView];
 
         [self resetCells];
+        
+        self.currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 
         // blur background
         //
