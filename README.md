@@ -3,9 +3,7 @@ SFSCollectionMenu
 
 An open-source menu control for iOS utilizing UICollectionView layout.
 
-SFSCollectionMenuController is an open-source control for a UICollectionView-based menu. It works by utilizing a delegate pattern
-to allow you, the developer, the implement it easily and add your own code to customize its appearance and behavior.
-SFSCollectionMenuController's designated initializer is -initWithDelegate, as the delegate is required for operation.
+SFSCollectionMenu is an open-source control for a UICollectionView-based menu. SFSCollectionMenu is designed for iOS 7, and is ARC-compliant. It works by utilizing a delegate pattern to allow you, the developer, the implement it easily and add your own code to customize its appearance and behavior. SFSCollectionMenuController's designated initializer is -initWithDelegate, as the delegate is required for operation.
 
 ####To use:  
 1. Add SFSCollectionMenuController.h/.m, SFSCircleLayout.h/.m, and SFSMenuCell.h/.m to your project  
@@ -16,5 +14,9 @@ SFSCollectionMenuController's designated initializer is -initWithDelegate, as th
 6. Call -showMenu on your instance of SFSCollectionMenuController  
 
 ####Screenshots  
-![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/ipad1.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iphone1.png)
+![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPad1.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPhone1.png)
+
+####To do  
+* Add support for Accessibility, which will be required delegate methods
+* Create CocoaPod
 

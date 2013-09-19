@@ -12,6 +12,7 @@
 #import "UIImage+ImageEffects.h"
 
 #define CELL_REUSE_ID @"Cell Reuse ID"
+#define MAX_CELLS 6
 
 @interface SFSCollectionMenuController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -27,34 +28,65 @@
 
 @synthesize collectionView = _collectionView;
 
+#pragma mark - Initializer method
 - (instancetype)initWithDelegate:(id<SFSCollectionMenuDelegate>)delegate {
     self = [self initWithCollectionViewLayout:[self circleLayout]];
     if (self) {
         _delegate = delegate;
-        self.viewDisplayingMenu = ([delegate respondsToSelector:@selector(viewForMenu)] ? [delegate viewForMenu] : self.view );
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.viewDisplayingMenu.frame collectionViewLayout:[self circleLayout]];
+        self.visible = NO;
+    }
+    
+    return self;
+}
+
+- (void)setupCollectionView {
+    self.viewDisplayingMenu = ([self.delegate respondsToSelector:@selector(viewForMenu)] ? [self.delegate viewForMenu] : self.view );
+    if (_collectionView) {
+        [self.collectionView setFrame:[self frameForViewForCurrentOrientation]];
+    } else {
+        _collectionView = [[UICollectionView alloc] initWithFrame:[self frameForViewForCurrentOrientation] collectionViewLayout:[self circleLayout]];
         [self.collectionView setDelegate:self];
         [self.collectionView setDataSource:self];
         [self.collectionView registerClass:[SFSMenuCell class] forCellWithReuseIdentifier:CELL_REUSE_ID];
         
         [self.collectionView setBackgroundColor:[UIColor clearColor]];
-                
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
         [tapGesture setNumberOfTapsRequired:1];
         [tapGesture setNumberOfTouchesRequired:1];
         [tapGesture addTarget:self action:@selector(handleSingleTap:)];
         [self.collectionView addGestureRecognizer:tapGesture];
     }
+}
+
+#pragma mark - Orientation
+- (void)orientationChanged:(NSNotification *)notification {
+    if (self.isVisible) {
+        [self dismissMenuWithCompletion:^ {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showMenu];
+                [self.collectionView reloadData];
+            });
+        }];
+    }
+}
+
+- (CGRect)frameForViewForCurrentOrientation {
+    CGRect frame = CGRectZero;
     
-    return self;
-}
-
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return (UIInterfaceOrientationMaskAllButUpsideDown);
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
+        frame = self.viewDisplayingMenu.frame;
+    } else if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
+        frame = CGRectMake(self.viewDisplayingMenu.frame.origin.x,
+                           self.viewDisplayingMenu.frame.origin.y,
+                           self.viewDisplayingMenu.frame.size.height,
+                           self.viewDisplayingMenu.frame.size.width);
+    }
+    
+    return frame;
 }
 
 - (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer {
@@ -64,11 +96,15 @@
         if (indexPath) {
             [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
         } else {
-            [self dismissMenu];
+            [self dismissMenuWithCompletion:^{
+                NSLog(@"dismissed menu from handleSingleTap:");
+            }];
         }
     }
 }
 
+
+#pragma mark - Menu methods
 - (SFSCircleLayout *)circleLayout {
     if (_circleLayout) return _circleLayout;
     
@@ -82,28 +118,42 @@
     }];
 }
 
+- (UIImage *)blurredImageFromContext {
+    CGRect bounds = [self frameForViewForCurrentOrientation];
+    CGSize size = bounds.size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    [self.viewDisplayingMenu drawViewHierarchyInRect:CGRectMake(0, 0, size.width, size.height) afterScreenUpdates:YES];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    // apply effect
+    UIImage *lightImage = [newImage applyLightEffect];
+    return lightImage;
+}
+
+- (void)setBackgroundViewForCollectionWithImage:(UIImage *)image {
+    if (!_collectionViewBackgroundImageView) {
+        _collectionViewBackgroundImageView = [[UIImageView alloc] initWithImage:image];
+    } else {
+        [self.collectionViewBackgroundImageView setFrame:[self frameForViewForCurrentOrientation]];
+        [self.collectionViewBackgroundImageView setImage:image];
+    }
+}
+
 - (void)showMenu {
     if (!self.isVisible) {
-        [self resetCells];
         
+        [self setupCollectionView];
+
+        [self resetCells];
+
         // blur background
         //
         // grab view context and set to image
-        CGSize size = [[UIScreen mainScreen] bounds].size;
-        UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-        [self.viewDisplayingMenu drawViewHierarchyInRect:CGRectMake(0, 0, size.width, size.height) afterScreenUpdates:NO];
-        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        // apply effect
-        UIImage *lightImage = [newImage applyLightEffect];
+        UIImage *lightImage = [self blurredImageFromContext];
         
         // set blurred image to custom image view
-        if (!_collectionViewBackgroundImageView) {
-            _collectionViewBackgroundImageView = [[UIImageView alloc] initWithImage:lightImage];
-        } else {
-            [self.collectionViewBackgroundImageView setImage:lightImage];
-        }
+        [self setBackgroundViewForCollectionWithImage:lightImage];
         
         // animate display of blur and menu
         [self.collectionViewBackgroundImageView setAlpha:0.0];
@@ -112,16 +162,23 @@
         [self.viewDisplayingMenu addSubview:self.collectionViewBackgroundImageView];
         [self.viewDisplayingMenu addSubview:self.collectionView];
         
-        [UIView animateWithDuration:0.2 animations:^{
+        [UIView animateWithDuration:0.1 animations:^{
             [self.collectionViewBackgroundImageView setAlpha:1.0];
             [self.collectionView setAlpha:1.0];
         } completion:^(BOOL finished) {
             self.visible = YES;
+            [self.collectionView reloadData];
         }];
     }
 }
 
 - (void)dismissMenu {
+    [self dismissMenuWithCompletion:^{
+        NSLog(@"dismissed menu.");
+    }];
+}
+
+- (void)dismissMenuWithCompletion:(void (^)(void))completion {
     if (self.isVisible) {
         [UIView animateWithDuration:0.2 animations:^{
             [self.collectionView setAlpha:0.0];
@@ -132,6 +189,7 @@
             [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
             self.collectionViewBackgroundImageView = nil;
             self.visible = NO;
+            if (completion) completion();
         }];
     }
 }
@@ -145,7 +203,11 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (self.delegate) {
         if ([self.delegate respondsToSelector:@selector(numberOfButtonsInMenuController:)]) {
-            return [self.delegate numberOfButtonsInMenuController:self];
+            NSInteger numCells = [self.delegate numberOfButtonsInMenuController:self];
+            if (numCells > MAX_CELLS) {
+                numCells = MAX_CELLS;
+            }
+            return numCells;
         }
     }
     return 0;

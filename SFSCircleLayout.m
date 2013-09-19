@@ -9,6 +9,8 @@
 #import "SFSCircleLayout.h"
 
 #define CIRCLE_DIAMETER 70
+#define IPAD_SCALE      6.0
+#define IPHONE_SCALE    3.0
 
 @implementation SFSCircleLayout
 
@@ -18,7 +20,11 @@
     CGSize size = self.collectionView.frame.size;
     _cellCount = [self.collectionView numberOfItemsInSection:0];
     _center = CGPointMake(size.width / 2.0, size.height / 2.0);
-    _radius = MIN(size.width, size.height) / 3.0;
+    _radius = MIN(size.width, size.height) / (([self isPhone]) ? IPHONE_SCALE : IPAD_SCALE); //3.0;
+}
+
+- (BOOL)isPhone {
+    return ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
 }
 
 - (CGSize)collectionViewContentSize {
@@ -33,7 +39,7 @@
         attributes.center = CGPointMake(self.center.x - self.radius * sinf(2 * indexPath.item * M_PI / self.cellCount),
                                         self.center.y - self.radius * cosf(2 * indexPath.item * M_PI / self.cellCount));
     } completion:^(BOOL finished) {
-        NSLog(@"done animating cell at indexPath: %@", indexPath);
+//        NSLog(@"done animating cell at indexPath: %@", indexPath);
     }];
     
     return attributes;
@@ -48,12 +54,12 @@
     return attributes;
 }
 
-- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath {
-    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
-    attributes.alpha = 0.0;
-    attributes.center = CGPointMake(CGRectGetMaxX(self.collectionView.frame), CGRectGetMaxY(self.collectionView.frame));
-//    attributes.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0);
-    return attributes;
-}
+//- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath {
+//    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
+//    attributes.alpha = 0.0;
+//    attributes.center = CGPointMake(CGRectGetMaxX(self.collectionView.frame), CGRectGetMaxY(self.collectionView.frame));
+////    attributes.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0);
+//    return attributes;
+//}
 
 @end

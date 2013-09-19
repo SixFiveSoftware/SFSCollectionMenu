@@ -18,7 +18,7 @@
 //   4. Create an instance of the menu controller by [[SFSCollectionMenu alloc] initWithDelegate:self], or whatever object you designate
 //      as the delegate
 //   5. Implement the required methods, and any optional methods you wish
-//   6. call -show on your instance of SFSCollectionMenu
+//   6. call -showMenu on your instance of SFSCollectionMenu
 
 #import <UIKit/UIKit.h>
 
@@ -38,7 +38,7 @@
 - (void)controller:(SFSCollectionMenuController *)controller didTapButtonAtIndexPath:(NSIndexPath *)indexPath;
 
 // numberOfButtonsInMenuController: is what your controller must implement to tell the menu how many buttons (cells)
-//  you wish the menu to have
+//  you wish the menu to have. Current max is 6.
 - (NSInteger)numberOfButtonsInMenuController:(SFSCollectionMenuController *)controller;
 
 // imageForButtonAtIndexPath: is what your controller must implement to tell the menu what images to place on the buttons
@@ -75,6 +75,11 @@
 //      -initWithDelegate: - this is the designated initializer for this class, and you should call this from your controller to initialize the menu
 //      -showMenu - call this on the instance of SFSCollectionMenuController to make the menu visible to the user
 //      -dismissMenu - call this on the instance of SFSCollectionMenuController to dismiss the menu and return normal control back to the user
+//      -dismissMenuWithCompletion:(void (^)(void))completion - call this on the instance of SFSCollectionMenuController to dismiss the menu,
+//          run any custom code you wish upon completion (WARNING: this is still in background thread. Any UI manipulation must dispatch
+//          back to the main thread), and then return normal control back to the user.
+//  Under normal circumstances, you shouldn't need to call -dismissMenu or -dismissMenuWithCompletion:; the menu will dismiss automatically
+//      upon choosing a cell or tapping outside the menu.
 @interface SFSCollectionMenuController : UICollectionViewController
 
 @property (nonatomic, weak, readonly) id<SFSCollectionMenuDelegate> delegate;
@@ -82,5 +87,6 @@
 - (instancetype)initWithDelegate:(id<SFSCollectionMenuDelegate>)delegate;
 - (void)showMenu;
 - (void)dismissMenu;
+- (void)dismissMenuWithCompletion:(void (^)(void))completion;
 
 @end
