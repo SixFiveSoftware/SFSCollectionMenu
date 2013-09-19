@@ -14,7 +14,7 @@ SFSCollectionMenu is an open-source control for a UICollectionView-based menu. S
 6. Call -showMenu on your instance of SFSCollectionMenuController  
 
 ####Screenshots  
-![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPad1.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPhone1.png)
+![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPad.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPhone.png)
 
 ####To do  
 * Add support for Accessibility, which will be required delegate methods
