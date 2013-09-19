@@ -16,7 +16,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.contentView.layer.cornerRadius = 35.0f;
-        self.contentView.layer.borderWidth = 1.0f;
+        self.contentView.layer.borderWidth = 0.0f;
         self.contentView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.contentView.backgroundColor = [UIColor darkGrayColor];
         
@@ -26,7 +26,7 @@
         self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
         
         [self addSubview:self.backgroundImageView];
-        [self addSubview:self.imageView];
+        [self.contentView addSubview:self.imageView];
     }
     return self;
 }
@@ -36,6 +36,8 @@
     
     self.backgroundImageView.image = nil;
     self.imageView.image = nil;
+
+    [self.imageView setFrame:self.bounds];
 }
 
 - (void)setBackgroundColorForCell:(UIColor *)color {

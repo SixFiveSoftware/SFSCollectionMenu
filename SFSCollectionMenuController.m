@@ -52,7 +52,7 @@
         
         [self.collectionView setBackgroundColor:[UIColor clearColor]];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
         [tapGesture setNumberOfTapsRequired:1];
@@ -67,13 +67,13 @@
     NSLog(@"notification: %@", [notification userInfo]);
     UIInterfaceOrientation newOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (self.isVisible && (newOrientation != self.currentOrientation)) {
-        [self dismissMenuWithCompletion:^ {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showMenu];
-                [self.collectionView reloadData];
-                self.currentOrientation = newOrientation;
-            });
-        }];
+//        [self dismissMenuWithCompletion:^ {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self showMenu];
+//                [self.collectionView reloadData];
+//                self.currentOrientation = newOrientation;
+//            });
+//        }];
     }
 }
 
