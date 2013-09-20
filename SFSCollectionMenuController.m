@@ -52,7 +52,7 @@
         
         [self.collectionView setBackgroundColor:[UIColor clearColor]];
         
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
         [tapGesture setNumberOfTapsRequired:1];
@@ -63,17 +63,16 @@
 }
 
 #pragma mark - Orientation
+
+// check for orientation type. the UIDeviceOrientationDidChangeNotification sends notifications even for accelerometer changes, like tilting.
+//  this method makes sure it's only an interface orientation change.
 - (void)orientationChanged:(NSNotification *)notification {
-    NSLog(@"notification: %@", [notification userInfo]);
     UIInterfaceOrientation newOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (self.isVisible && (newOrientation != self.currentOrientation)) {
-//        [self dismissMenuWithCompletion:^ {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self showMenu];
-//                [self.collectionView reloadData];
-//                self.currentOrientation = newOrientation;
-//            });
-//        }];
+        [self dismissMenuWithCompletion:^{
+            NSLog(@"dismissed menu from orientationChanged:");
+            self.currentOrientation = newOrientation;
+        }];
     }
 }
 
@@ -102,6 +101,7 @@
         } else {
             [self dismissMenuWithCompletion:^{
                 NSLog(@"dismissed menu from handleSingleTap:");
+                self.currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
             }];
         }
     }
@@ -114,12 +114,6 @@
     
     _circleLayout = [[SFSCircleLayout alloc] init];
     return _circleLayout;
-}
-
-- (void)resetCells {
-    [self.collectionView.visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj setAlpha:1.0];
-    }];
 }
 
 - (UIImage *)blurredImageFromContext {
@@ -149,8 +143,6 @@
         
         [self setupCollectionView];
 
-        [self resetCells];
-        
         self.currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 
         // blur background
@@ -194,6 +186,7 @@
             [self.collectionViewBackgroundImageView removeFromSuperview];
             [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
             self.collectionViewBackgroundImageView = nil;
+            self.collectionView = nil;  // this is to make sure menu does not initially draw in previous coordinate then awkwardly shift to right place
             self.visible = NO;
             if (completion) completion();
         }];
