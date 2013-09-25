@@ -54,4 +54,24 @@
     self.buttonTappedLabel.text = text;
 }
 
+- (NSString *)accessibilityLabelForButtonAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *labels = @[@"Camera",
+                        @"Chat",
+                        @"Phone",
+                        @"Star",
+                        @"Tag",
+                        @"Voicemail"];
+    return labels[indexPath.row];
+}
+
+- (NSString *)accessibilityHintForButtonAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *hints = @[@"Opens the camera",
+                       @"Starts a chat session",
+                       @"Opens the phone app",
+                       @"Marks this as a favorite",
+                       @"Tags this for later",
+                       @"Opens the voicemail interface to listen to voicemails"];
+    return hints[indexPath.row];
+}
+
 @end

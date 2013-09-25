@@ -10,6 +10,7 @@
 #import "SFSMenuCell.h"
 #import "SFSCircleLayout.h"
 #import "UIImage+ImageEffects.h"
+#import <AVFoundation/AVSpeechSynthesis.h>
 
 #define CELL_REUSE_ID @"Cell Reuse ID"
 #define MAX_CELLS 6
@@ -52,6 +53,9 @@
         
         [self.collectionView setBackgroundColor:[UIColor clearColor]];
         
+        // set the Accessibility View to modal so views below it are not read by VoiceOver
+        [self.collectionView setAccessibilityViewIsModal:YES];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -60,6 +64,13 @@
         [tapGesture addTarget:self action:@selector(handleSingleTap:)];
         [self.collectionView addGestureRecognizer:tapGesture];
     }
+}
+
+#pragma mark - Accessibility
+- (void)speakSelected {
+    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc] init];
+    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:@"button selected"];
+    [synthesizer speakUtterance:utterance];
 }
 
 #pragma mark - Orientation
@@ -166,6 +177,8 @@
         } completion:^(BOOL finished) {
             self.visible = YES;
             [self.collectionView reloadData];
+            [self isAccessibilityElement];
+            [self setAccessibilityViewIsModal:YES];
         }];
     }
 }
@@ -229,6 +242,16 @@
         if ([self.delegate respondsToSelector:@selector(imageForButtonAtIndexPath:)]) {
             [cell setImageForCell:[self.delegate imageForButtonAtIndexPath:indexPath]];
         }
+        
+        // Accessibility label
+        if ([self.delegate respondsToSelector:@selector(accessibilityLabelForButtonAtIndexPath:)]) {
+            [cell setAccessibilityLabel:[self.delegate accessibilityLabelForButtonAtIndexPath:indexPath]];
+        }
+        
+        // Accessibility hint
+        if ([self.delegate respondsToSelector:@selector(accessibilityHintForButtonAtIndexPath:)]) {
+            [cell setAccessibilityHint:[self.delegate accessibilityHintForButtonAtIndexPath:indexPath]];
+        }
     }
     
     return cell;
@@ -260,6 +283,7 @@
                     if ([self.delegate respondsToSelector:@selector(controller:didTapButtonAtIndexPath:)]) {
                         [self.delegate controller:self didTapButtonAtIndexPath:indexPath];
                     }
+                    [self speakSelected];
                     [self dismissMenu];
                     [selectedCell setFrame:selectedCellOriginalRect];
                 }];

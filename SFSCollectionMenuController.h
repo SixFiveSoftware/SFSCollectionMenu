@@ -48,6 +48,12 @@
 // viewForMenu is what your controller must implement to tell the collectionView what from what view to display the menu
 - (UIView *)viewForMenu;
 
+// Accessibility methods
+//  -accessibilityLabelForButtonAtIndexPath: you must provide a short label which VoiceOver will read aloud, quickly telling low-vision users what the control is.
+//  -accessibilityHintForButtonAtIndexPath: you must provide a brief sentence which VoiceOver will read aloud, after a short pause from reading the accessibility label. This is to further explain what the control does.
+- (NSString *)accessibilityLabelForButtonAtIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)accessibilityHintForButtonAtIndexPath:(NSIndexPath *)indexPath;
+
 
 @optional
 

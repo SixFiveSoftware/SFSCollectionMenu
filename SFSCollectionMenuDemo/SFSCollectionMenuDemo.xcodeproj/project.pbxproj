@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B03557817F36D23002968A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B03557717F36D23002968A5 /* AVFoundation.framework */; };
 		3B63E6EF17DD5F1C00AA2978 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E6EE17DD5F1C00AA2978 /* Foundation.framework */; };
 		3B63E6F117DD5F1C00AA2978 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E6F017DD5F1C00AA2978 /* CoreGraphics.framework */; };
 		3B63E6F317DD5F1C00AA2978 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E6F217DD5F1C00AA2978 /* UIKit.framework */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B03557717F36D23002968A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3B63E6EB17DD5F1C00AA2978 /* SFSCollectionMenuDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSCollectionMenuDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B63E6EE17DD5F1C00AA2978 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B63E6F017DD5F1C00AA2978 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -108,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B03557817F36D23002968A5 /* AVFoundation.framework in Frameworks */,
 				3BA0D78117E7719F0076ADDC /* Accelerate.framework in Frameworks */,
 				3B63E75517DD670700AA2978 /* QuartzCore.framework in Frameworks */,
 				3B63E6F117DD5F1C00AA2978 /* CoreGraphics.framework in Frameworks */,
@@ -151,6 +154,7 @@
 		3B63E6ED17DD5F1C00AA2978 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B03557717F36D23002968A5 /* AVFoundation.framework */,
 				3BA0D78017E7719F0076ADDC /* Accelerate.framework */,
 				3B63E75417DD670700AA2978 /* QuartzCore.framework */,
 				3B63E6EE17DD5F1C00AA2978 /* Foundation.framework */,
