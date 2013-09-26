@@ -51,9 +51,10 @@
 // Accessibility methods
 //  -accessibilityLabelForButtonAtIndexPath: you must provide a short label which VoiceOver will read aloud, quickly telling low-vision users what the control is.
 //  -accessibilityHintForButtonAtIndexPath: you must provide a brief sentence which VoiceOver will read aloud, after a short pause from reading the accessibility label. This is to further explain what the control does.
+//  -imageForCloseButton is added to the Accessibility section because it is necessary for proper Accessibility navigation. You can provide an image that matches your theme.
 - (NSString *)accessibilityLabelForButtonAtIndexPath:(NSIndexPath *)indexPath;
 - (NSString *)accessibilityHintForButtonAtIndexPath:(NSIndexPath *)indexPath;
-
+- (UIImage *)imageForCloseButton;
 
 @optional
 

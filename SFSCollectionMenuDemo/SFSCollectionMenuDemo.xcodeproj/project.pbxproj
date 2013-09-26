@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3B03557817F36D23002968A5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B03557717F36D23002968A5 /* AVFoundation.framework */; };
+		3B12973417F3B33D00CA62B6 /* closeButtonGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B12973217F3B33D00CA62B6 /* closeButtonGray.png */; };
+		3B12973517F3B33D00CA62B6 /* closeButtonGray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B12973317F3B33D00CA62B6 /* closeButtonGray@2x.png */; };
 		3B63E6EF17DD5F1C00AA2978 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E6EE17DD5F1C00AA2978 /* Foundation.framework */; };
 		3B63E6F117DD5F1C00AA2978 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E6F017DD5F1C00AA2978 /* CoreGraphics.framework */; };
 		3B63E6F317DD5F1C00AA2978 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B63E6F217DD5F1C00AA2978 /* UIKit.framework */; };
@@ -58,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		3B03557717F36D23002968A5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3B12973217F3B33D00CA62B6 /* closeButtonGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeButtonGray.png; sourceTree = "<group>"; };
+		3B12973317F3B33D00CA62B6 /* closeButtonGray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeButtonGray@2x.png"; sourceTree = "<group>"; };
 		3B63E6EB17DD5F1C00AA2978 /* SFSCollectionMenuDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSCollectionMenuDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B63E6EE17DD5F1C00AA2978 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B63E6F017DD5F1C00AA2978 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -244,6 +248,8 @@
 		3B63E73517DD63A800AA2978 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3B12973217F3B33D00CA62B6 /* closeButtonGray.png */,
+				3B12973317F3B33D00CA62B6 /* closeButtonGray@2x.png */,
 				3B63E73617DD63A800AA2978 /* bgcircle.png */,
 				3B63E73717DD63A800AA2978 /* bgcircle.pxm */,
 				3B63E73817DD63A800AA2978 /* bgcircle@2x.png */,
@@ -356,6 +362,7 @@
 				3B63E70517DD5F1C00AA2978 /* Main_iPad.storyboard in Resources */,
 				3B63E70A17DD5F1C00AA2978 /* Images.xcassets in Resources */,
 				3B63E74C17DD63A800AA2978 /* phone.png in Resources */,
+				3B12973417F3B33D00CA62B6 /* closeButtonGray.png in Resources */,
 				3B63E74917DD63A800AA2978 /* camera@2x.png in Resources */,
 				3B63E74B17DD63A800AA2978 /* chatBubble@2x.png in Resources */,
 				3B63E74617DD63A800AA2978 /* bgcircle.pxm in Resources */,
@@ -366,6 +373,7 @@
 				3B63E74A17DD63A800AA2978 /* chatBubble.png in Resources */,
 				3B63E75317DD63A800AA2978 /* voicemail@2x.png in Resources */,
 				3B63E75217DD63A800AA2978 /* voicemail.png in Resources */,
+				3B12973517F3B33D00CA62B6 /* closeButtonGray@2x.png in Resources */,
 				3B63E74717DD63A800AA2978 /* bgcircle@2x.png in Resources */,
 				3B63E74517DD63A800AA2978 /* bgcircle.png in Resources */,
 				3B63E74E17DD63A800AA2978 /* star.png in Resources */,

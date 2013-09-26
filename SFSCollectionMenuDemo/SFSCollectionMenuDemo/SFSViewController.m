@@ -74,4 +74,8 @@
     return hints[indexPath.row];
 }
 
+- (UIImage *)imageForCloseButton {
+    return [UIImage imageNamed:@"closeButtonGray"];
+}
+
 @end

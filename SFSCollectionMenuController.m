@@ -22,6 +22,7 @@
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 @property (nonatomic, strong) UIImageView *collectionViewBackgroundImageView;
 @property (nonatomic) UIInterfaceOrientation currentOrientation;
+@property (nonatomic, strong) UIButton *closeButton;
 
 @end
 
@@ -56,6 +57,9 @@
         // set the Accessibility View to modal so views below it are not read by VoiceOver
         [self.collectionView setAccessibilityViewIsModal:YES];
         
+        // register for Accessibility notification for changes in VoiceOver
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(voiceOverChanged) name:UIAccessibilityVoiceOverStatusChanged object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -68,9 +72,48 @@
 
 #pragma mark - Accessibility
 - (void)speakSelected {
-    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc] init];
-    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:@"button selected"];
-    [synthesizer speakUtterance:utterance];
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc] init];
+        AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:@"button selected"];
+        [synthesizer speakUtterance:utterance];
+    }
+}
+
+- (void)voiceOverChanged {
+    [self showCloseButton:UIAccessibilityIsVoiceOverRunning()];
+}
+
+- (void)showCloseButton:(BOOL)showButton {
+    if (showButton) {
+        _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.closeButton setAccessibilityLabel:@"Close"];
+        [self.closeButton setAccessibilityHint:@"Closes the menu"];
+        [self.closeButton addTarget:self action:@selector(closeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.closeButton setIsAccessibilityElement:YES];
+        if (self.delegate) {
+            if ([self.delegate respondsToSelector:@selector(imageForCloseButton)]) {
+                UIImage *closeImage = [self.delegate imageForCloseButton];
+                [self.closeButton setImage:closeImage forState:UIControlStateNormal];
+                CGPoint centerPoint = self.collectionView.center;
+                [self.closeButton setFrame:CGRectMake(centerPoint.x - (closeImage.size.width / 2.0),
+                                                      centerPoint.y - (closeImage.size.height / 2.0),
+                                                      closeImage.size.width,
+                                                      closeImage.size.height)];
+            }
+        }
+        [self.collectionView addSubview:self.closeButton];
+    } else {
+        [self.closeButton removeFromSuperview];
+        self.closeButton = nil;
+    }
+}
+
+- (void)closeButtonTapped {
+    [self dismissMenuWithCompletion:^{
+        AVSpeechSynthesizer *synth = [[AVSpeechSynthesizer alloc] init];
+        AVSpeechUtterance *utter = [AVSpeechUtterance speechUtteranceWithString:@"Menu closed."];
+        [synth speakUtterance:utter];
+    }];
 }
 
 #pragma mark - Orientation
@@ -175,6 +218,7 @@
             [self.collectionViewBackgroundImageView setAlpha:1.0];
             [self.collectionView setAlpha:1.0];
         } completion:^(BOOL finished) {
+            [self voiceOverChanged];
             self.visible = YES;
             [self.collectionView reloadData];
             [self isAccessibilityElement];
@@ -195,6 +239,7 @@
             [self.collectionView setAlpha:0.0];
             [self.collectionViewBackgroundImageView setAlpha:0.0];
         } completion:^(BOOL finished) {
+            [self voiceOverChanged];
             [self.collectionView removeFromSuperview];
             [self.collectionViewBackgroundImageView removeFromSuperview];
             [self.viewDisplayingMenu.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
