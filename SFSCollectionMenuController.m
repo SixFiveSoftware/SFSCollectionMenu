@@ -163,6 +163,10 @@
 
 
 #pragma mark - Menu methods
+- (BOOL)isVisible {
+    return self.visible;
+}
+
 - (SFSCircleLayout *)circleLayout {
     if (_circleLayout) return _circleLayout;
     

@@ -33,19 +33,16 @@
 
 @required
 
-// controller:didTapButtonAtIndex: is what your controller must implement to tell the menu what action(s) to take
+// -controller:didTapButtonAtIndex: is what your controller must implement to tell the menu what action(s) to take
 //  upon tapping a particular cell in the collectionView
-- (void)controller:(SFSCollectionMenuController *)controller didTapButtonAtIndexPath:(NSIndexPath *)indexPath;
-
-// numberOfButtonsInMenuController: is what your controller must implement to tell the menu how many buttons (cells)
+// -numberOfButtonsInMenuController: is what your controller must implement to tell the menu how many buttons (cells)
 //  you wish the menu to have. Current max is 6.
-- (NSInteger)numberOfButtonsInMenuController:(SFSCollectionMenuController *)controller;
-
-// imageForButtonAtIndexPath: is what your controller must implement to tell the menu what images to place on the buttons
+// -imageForButtonAtIndexPath: is what your controller must implement to tell the menu what images to place on the buttons
 //  (cells) for display. The cells are 70 points in diameter, so images smaller than that will work well.
+// -viewForMenu is what your controller must implement to tell the collectionView what from what view to display the menu
+- (void)controller:(SFSCollectionMenuController *)controller didTapButtonAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)numberOfButtonsInMenuController:(SFSCollectionMenuController *)controller;
 - (UIImage *)imageForButtonAtIndexPath:(NSIndexPath *)indexPath;
-
-// viewForMenu is what your controller must implement to tell the collectionView what from what view to display the menu
 - (UIView *)viewForMenu;
 
 // Accessibility methods
@@ -58,11 +55,11 @@
 
 @optional
 
-// backgroundImageForButtonAtIndexPath: and backgroundColorForButtonAtIndexPath: are optional, and your controller can implement
+// -backgroundImageForButtonAtIndexPath: and -backgroundColorForButtonAtIndexPath: are optional, and your controller can implement
 //  them to change the display of the buttons (cells).
-//  If backgroundImageForButtonAtIndexPath: is implemented in your controller, it will place whatever image is returned into the
+//  If -backgroundImageForButtonAtIndexPath: is implemented in your controller, it will place whatever image is returned into the
 //   cell's contentView's backgroundImage property.
-//  If backgroundColorForButtonAtIndexPath: is implemented in your controller, it will remove any background image and set the cell's
+//  If -backgroundColorForButtonAtIndexPath: is implemented in your controller, it will remove any background image and set the cell's
 //   contentView's backgroundColor property.
 //  If neither is implemented, a standard grey color will be used for the background color of the cells.
 - (UIImage *)backgroundImageForButtonAtIndexPath:(NSIndexPath *)indexPath;
@@ -85,6 +82,7 @@
 //      -dismissMenuWithCompletion:(void (^)(void))completion - call this on the instance of SFSCollectionMenuController to dismiss the menu,
 //          run any custom code you wish upon completion (WARNING: this is still in background thread. Any UI manipulation must dispatch
 //          back to the main thread), and then return normal control back to the user.
+//      -isVisible - this will return YES or NO depending on if the menu controller is visible or not
 //  Under normal circumstances, you shouldn't need to call -dismissMenu or -dismissMenuWithCompletion:; the menu will dismiss automatically
 //      upon choosing a cell or tapping outside the menu.
 @interface SFSCollectionMenuController : UICollectionViewController
@@ -95,5 +93,6 @@
 - (void)showMenu;
 - (void)dismissMenu;
 - (void)dismissMenuWithCompletion:(void (^)(void))completion;
+- (BOOL)isVisible;
 
 @end

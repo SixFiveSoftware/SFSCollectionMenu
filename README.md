@@ -24,6 +24,7 @@ If you use this framework, I'd love to hear from you! Here's how to contact me:
 3. Adhere to the SFSCollectionMenuDelegate protocol  
 4. Create an instance of the menu controller by [[SFSCollectionMenuController alloc] initWithDelegate:self], or whatever object you designate as the delegate  
 5. Implement the required methods, and any optional methods you wish  
+ * NOTE: if your view is inside a container view controller (such as UINavigationController or UITabBarController), return self.tabBarController.view or self.navigationController.view to blur the whole screen in the -viewForMenu delegate method
 6. Call -showMenu on your instance of SFSCollectionMenuController  
 
 ####Screenshots  
