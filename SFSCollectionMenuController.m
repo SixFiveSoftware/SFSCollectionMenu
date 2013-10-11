@@ -68,7 +68,9 @@
                 [label sizeToFit];
                 if ([self.delegate respondsToSelector:@selector(colorForLabelText)]) {
                     [label setTextColor:[self.delegate colorForLabelText]];
-                }
+                } else {
+		    [label setTextColor:[UIColor whiteColor]];
+		}
                 CGSize labelSize = label.frame.size;
                 CGPoint labelOrigin = CGPointZero;
                 CGFloat x, y;
