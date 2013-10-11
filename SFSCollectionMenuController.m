@@ -174,7 +174,7 @@
     return _circleLayout;
 }
 
-- (UIImage *)blurredImageFromContext {
+- (UIImage *)blurredImageFromContextWithLightEffect:(SFSLightEffectType)lightEffect {
     CGRect bounds = [self frameForViewForCurrentOrientation];
     CGSize size = bounds.size;
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
@@ -183,8 +183,26 @@
     UIGraphicsEndImageContext();
     
     // apply effect
-    UIImage *lightImage = [newImage applyMediumLightEffect];
-    return lightImage;
+//    UIImage *lightImage = [newImage applyMediumLightEffect];
+    UIImage *blurredImage = nil;
+    switch (lightEffect) {
+        case SFSLightEffectTypeDark:
+            blurredImage = [newImage applyDarkEffect];
+            break;
+        case SFSLightEffectTypeExtraLight:
+            blurredImage = [newImage applyExtraLightEffect];
+            break;
+        case SFSLightEffectTypeLight:
+            blurredImage = [newImage applyLightEffect];
+            break;
+        case SFSLightEffectTypeMediumLight:
+            blurredImage = [newImage applyMediumLightEffect];
+            break;
+        default:
+            blurredImage = [newImage applyLightEffect];
+            break;
+    }
+    return blurredImage;
 }
 
 - (void)setBackgroundViewForCollectionWithImage:(UIImage *)image {
@@ -196,7 +214,7 @@
     }
 }
 
-- (void)showMenu {
+- (void)showMenuWithLightEffect:(SFSLightEffectType)lightEffect {
     if (!self.isVisible) {
         
         [self setupCollectionView];
@@ -206,7 +224,7 @@
         // blur background
         //
         // grab view context and set to image
-        UIImage *lightImage = [self blurredImageFromContext];
+        UIImage *lightImage = [self blurredImageFromContextWithLightEffect:lightEffect];
         
         // set blurred image to custom image view
         [self setBackgroundViewForCollectionWithImage:lightImage];

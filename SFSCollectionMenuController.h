@@ -22,6 +22,15 @@
 
 #import <UIKit/UIKit.h>
 
+// Enumerated type for allowing caller to easily choose one of four types of background blur
+typedef NS_ENUM(NSInteger, SFSLightEffectType) {
+    SFSLightEffectTypeExtraLight = 0,
+    SFSLightEffectTypeLight,
+    SFSLightEffectTypeMediumLight,
+    SFSLightEffectTypeDark
+};
+
+
 @class SFSCollectionMenuController;
 
 
@@ -77,7 +86,7 @@
 //  methods:
 //
 //      -initWithDelegate: - this is the designated initializer for this class, and you should call this from your controller to initialize the menu
-//      -showMenu - call this on the instance of SFSCollectionMenuController to make the menu visible to the user
+//      -showMenuWithLightEffect: - call this on the instance of SFSCollectionMenuController to make the menu visible to the user. Pass in an SFSLightEffectType option.
 //      -dismissMenu - call this on the instance of SFSCollectionMenuController to dismiss the menu and return normal control back to the user
 //      -dismissMenuWithCompletion:(void (^)(void))completion - call this on the instance of SFSCollectionMenuController to dismiss the menu,
 //          run any custom code you wish upon completion (WARNING: this is still in background thread. Any UI manipulation must dispatch
@@ -90,7 +99,7 @@
 @property (nonatomic, weak, readonly) id<SFSCollectionMenuDelegate> delegate;
 
 - (instancetype)initWithDelegate:(id<SFSCollectionMenuDelegate>)delegate;
-- (void)showMenu;
+- (void)showMenuWithLightEffect:(SFSLightEffectType)lightEffect;
 - (void)dismissMenu;
 - (void)dismissMenuWithCompletion:(void (^)(void))completion;
 - (BOOL)isVisible;

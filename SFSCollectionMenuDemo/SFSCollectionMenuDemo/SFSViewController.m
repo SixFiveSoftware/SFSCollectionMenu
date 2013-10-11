@@ -21,7 +21,7 @@
     if (!_collectionMenu) {
         _collectionMenu = [[SFSCollectionMenuController alloc] initWithDelegate:self];
     }
-    [self.collectionMenu showMenu];
+    [self.collectionMenu showMenuWithLightEffect:SFSLightEffectTypeMediumLight];
 }
 
 
