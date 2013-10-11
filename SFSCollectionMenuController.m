@@ -14,6 +14,8 @@
 
 #define CELL_REUSE_ID @"Cell Reuse ID"
 #define MAX_CELLS 6
+#define IPHONE_LABEL_OFFSET 200
+#define IPAD_LABEL_OFFSET   275
 
 @interface SFSCollectionMenuController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -56,6 +58,38 @@
         
         // set the Accessibility View to modal so views below it are not read by VoiceOver
         [self.collectionView setAccessibilityViewIsModal:YES];
+        
+        // set the label
+        if (self.delegate) {
+            if ([self.delegate respondsToSelector:@selector(labelTextForMenu)]) {
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+                label.text = [self.delegate labelTextForMenu];
+                [label setFont:[UIFont fontWithName:@"Verdana" size:25.0f]];
+                [label sizeToFit];
+                if ([self.delegate respondsToSelector:@selector(colorForLabelText)]) {
+                    [label setTextColor:[self.delegate colorForLabelText]];
+                }
+                CGSize labelSize = label.frame.size;
+                CGPoint labelOrigin = CGPointZero;
+                CGFloat x, y;
+                x = self.collectionView.center.x - (labelSize.width / 2);
+                y = self.collectionView.center.y - (([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) ? IPHONE_LABEL_OFFSET : IPAD_LABEL_OFFSET);
+                labelOrigin.x = x;
+                labelOrigin.y = y;
+                [label setFrame:CGRectMake(labelOrigin.x, labelOrigin.y, labelSize.width, labelSize.height)];
+                
+                // set accessibility label and hint for label
+                if ([self.delegate respondsToSelector:@selector(accessibilityLabelForMenuLabel)]) {
+                    [label setAccessibilityLabel:[self.delegate accessibilityLabelForMenuLabel]];
+                }
+                if ([self.delegate respondsToSelector:@selector(accessibilityHintForMenuLabel)]) {
+                    [label setAccessibilityHint:[self.delegate accessibilityHintForMenuLabel]];
+                }
+                
+                // add to collectionView
+                [self.collectionView addSubview:label];
+            }
+        }
         
         // register for Accessibility notification for changes in VoiceOver
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(voiceOverChanged) name:UIAccessibilityVoiceOverStatusChanged object:nil];
@@ -324,12 +358,18 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // remove close button first so it does not display over top of animated button
+    if (self.closeButton.window) {
+        [self showCloseButton:NO];
+    }
+    
     NSMutableArray *indexPathsForButtons = [[self.collectionView indexPathsForVisibleItems] mutableCopy];
     [indexPathsForButtons removeObject:indexPath];
     SFSMenuCell *selectedCell = (SFSMenuCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
     NSMutableArray *unselectedCells = [[self.collectionView visibleCells] mutableCopy];
     [unselectedCells removeObject:selectedCell];
     CGRect selectedCellOriginalRect = selectedCell.frame;
+    
     
     [UIView animateWithDuration:0.2 animations:^{
         selectedCell.center = self.collectionView.center;

@@ -74,6 +74,11 @@ typedef NS_ENUM(NSInteger, SFSLightEffectType) {
 - (UIImage *)backgroundImageForButtonAtIndexPath:(NSIndexPath *)indexPath;
 - (UIColor *)backgroundColorForButtonAtIndexPath:(NSIndexPath *)indexPath;
 
+- (NSString *)labelTextForMenu;
+- (UIColor *)colorForLabelText;
+- (NSString *)accessibilityLabelForMenuLabel;
+- (NSString *)accessibilityHintForMenuLabel;
+
 @end
 
 

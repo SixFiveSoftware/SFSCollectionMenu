@@ -78,4 +78,20 @@
     return [UIImage imageNamed:@"closeButtonGray"];
 }
 
+- (NSString *)labelTextForMenu {
+    return @"My Menu";
+}
+
+- (UIColor *)colorForLabelText {
+    return [UIColor whiteColor];
+}
+
+- (NSString *)accessibilityHintForMenuLabel {
+    return @"Displaying My Menu to choose an option";
+}
+
+- (NSString *)accessibilityLabelForMenuLabel {
+    return @"My Menu";
+}
+
 @end
