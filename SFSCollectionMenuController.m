@@ -183,7 +183,6 @@
     UIGraphicsEndImageContext();
     
     // apply effect
-//    UIImage *lightImage = [newImage applyMediumLightEffect];
     UIImage *blurredImage = nil;
     switch (lightEffect) {
         case SFSLightEffectTypeDark:
