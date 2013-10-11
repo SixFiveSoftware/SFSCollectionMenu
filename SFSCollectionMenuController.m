@@ -9,8 +9,8 @@
 #import "SFSCollectionMenuController.h"
 #import "SFSMenuCell.h"
 #import "SFSCircleLayout.h"
-#import "UIImage+ImageEffects.h"
 #import <AVFoundation/AVSpeechSynthesis.h>
+#import "UIImage+ImageEffects.h"
 
 #define CELL_REUSE_ID @"Cell Reuse ID"
 #define MAX_CELLS 6
@@ -164,7 +164,7 @@
 
 #pragma mark - Menu methods
 - (BOOL)isVisible {
-    return self.visible;
+    return _visible;
 }
 
 - (SFSCircleLayout *)circleLayout {
@@ -183,7 +183,7 @@
     UIGraphicsEndImageContext();
     
     // apply effect
-    UIImage *lightImage = [newImage applyLightEffect];
+    UIImage *lightImage = [newImage applyMediumLightEffect];
     return lightImage;
 }
 

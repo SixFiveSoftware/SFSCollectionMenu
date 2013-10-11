@@ -122,6 +122,11 @@
     return [self applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
+- (UIImage *)applyMediumLightEffect
+{
+    UIColor *tintColor = [UIColor colorWithWhite:0.4 alpha:0.63];
+    return [self applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+}
 
 - (UIImage *)applyTintEffectWithColor:(UIColor *)tintColor
 {
