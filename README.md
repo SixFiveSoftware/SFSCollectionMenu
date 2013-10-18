@@ -31,5 +31,4 @@ If you use this framework, I'd love to hear from you! Here's how to contact me:
 ![iPad portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPad.png) ![iPhone 4 inch portrait](https://raw.github.com/SixFiveSoftware/SFSCollectionMenu/master/iPhone.png)
 
 ####To do  
-* Create CocoaPod
-
+* nothing at the moment
