@@ -74,6 +74,9 @@ typedef NS_ENUM(NSInteger, SFSLightEffectType) {
 - (UIImage *)backgroundImageForButtonAtIndexPath:(NSIndexPath *)indexPath;
 - (UIColor *)backgroundColorForButtonAtIndexPath:(NSIndexPath *)indexPath;
 
+// -isButtonEnabledAtIndexPath:inMenuController: is optional, and allows buttons to be disabled or enabled in the menu depending on criteria you choose; e.g., if you have a button that shares to Facebook, but the device isn't setup to the Facebook service, you could return NO to disable the button
+- (BOOL)isButtonEnabledAtIndexPath:(NSIndexPath *)indexPath inMenuController:(SFSCollectionMenuController *)controller;
+
 - (NSString *)labelTextForMenu;
 - (UIColor *)colorForLabelText;
 - (NSString *)accessibilityLabelForMenuLabel;

@@ -94,4 +94,14 @@
     return @"My Menu";
 }
 
+- (BOOL)isButtonEnabledAtIndexPath:(NSIndexPath *)indexPath inMenuController:(SFSCollectionMenuController *)controller {
+    NSInteger button = indexPath.row;
+    if (button == 1) // this would be the "Chat" button
+        return NO;
+    // or for instance, if MessageUI framework is added, you could do:
+    // return ([MFMessageComposeViewController canSendText]) ? YES : NO;
+    
+    return YES;
+}
+
 @end

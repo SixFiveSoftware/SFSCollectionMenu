@@ -327,9 +327,21 @@
     return 0;
 }
 
+- (BOOL)isButtonEnabledAtIndexPath:(NSIndexPath *)indexPath
+{
+    BOOL isButtonEnabled = YES;
+    if ([self.delegate respondsToSelector:@selector(isButtonEnabledAtIndexPath:inMenuController:)]) {
+        isButtonEnabled = [self.delegate isButtonEnabledAtIndexPath:indexPath inMenuController:self];
+    }
+    return isButtonEnabled;
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SFSMenuCell *cell = (SFSMenuCell *)[collectionView dequeueReusableCellWithReuseIdentifier:CELL_REUSE_ID forIndexPath:indexPath];
     if (self.delegate) {
+        // is button enabled
+        BOOL isButtonEnabled = [self isButtonEnabledAtIndexPath:indexPath];
+        
         //background image
         if ([self.delegate respondsToSelector:@selector(backgroundImageForButtonAtIndexPath:)]) {
             [cell setBackgroundImageForCell:[self.delegate backgroundImageForButtonAtIndexPath:indexPath]];
@@ -343,6 +355,11 @@
         // foreground image
         if ([self.delegate respondsToSelector:@selector(imageForButtonAtIndexPath:)]) {
             [cell setImageForCell:[self.delegate imageForButtonAtIndexPath:indexPath]];
+            if (!isButtonEnabled) {
+                [cell.imageView setAlpha:0.5f];
+            } else {
+                [cell.imageView setAlpha:1.0f];
+            }
         }
         
         // Accessibility label
@@ -360,6 +377,12 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // if button is not enabled, just return
+    BOOL isButtonEnabled = [self isButtonEnabledAtIndexPath:indexPath];
+    if (!isButtonEnabled) {
+        return;
+    }
+    
     // remove close button first so it does not display over top of animated button
     if (self.closeButton.window) {
         [self showCloseButton:NO];
