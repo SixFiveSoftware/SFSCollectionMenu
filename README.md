@@ -15,6 +15,15 @@ If you use this framework, I'd love to hear from you! Here's how to contact me:
 * Website: http://sixfivesoftware.com
 
 ####To use  
+Method A:
+1. Use CocoaPod
+ $ edit Podfile
+ platform :ios, '7.0'
+ pod 'SFSCollectionMenu', '~> 0.2.0'
+2. Install CocoaPod
+ $ pod install
+
+Method B:
 1. Add the following files to your project
  * SFSCollectionMenuController (.h/.m)
  * SFSCircleLayout (.h/.m)
