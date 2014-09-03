@@ -19,7 +19,7 @@ Method A:
 1. Use CocoaPod  
  $ edit Podfile  
  platform :ios, '7.0'  
- pod 'SFSCollectionMenu', '~> 0.2.0'  
+ pod 'SFSCollectionMenu', '~> 0.3.0'  
 2. Install CocoaPod  
  $ pod install  
 
